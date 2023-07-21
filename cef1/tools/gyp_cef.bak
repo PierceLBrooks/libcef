@@ -56,7 +56,7 @@ def apply_gyp_environment(file_path=None):
   file_contents = open(file_path).read()
   try:
     file_data = eval(file_contents, {'__builtins__': None}, None)
-  except SyntaxError as e:
+  except SyntaxError, e:
     e.filename = os.path.abspath(file_path)
     raise
   supported_vars = ( 'CHROMIUM_GYP_SYNTAX_CHECK',
@@ -67,9 +67,9 @@ def apply_gyp_environment(file_path=None):
     val = file_data.get(var)
     if val:
       if var in os.environ:
-        print('INFO: Environment value for "%s" overrides value in %s.' % (
+        print 'INFO: Environment value for "%s" overrides value in %s.' % (
             var, os.path.abspath(file_path)
-        ))
+        )
       else:
         os.environ[var] = val
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
   # Use the Psyco JIT if available.
   if psyco:
     psyco.profile()
-    print("Enabled Psyco JIT.")
+    print "Enabled Psyco JIT."
 
   # Fall back on hermetic python if we happen to get run under cygwin.
   # TODO(bradnelson): take this out once this issue is fixed:
@@ -148,7 +148,7 @@ if __name__ == '__main__':
   if syntax_check and int(syntax_check):
     args.append('--check')
 
-  print('Updating projects from gyp files...')
+  print 'Updating projects from gyp files...'
   sys.stdout.flush()
 
   # Off we go...

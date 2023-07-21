@@ -38,7 +38,7 @@ def from_file(filename):
       return PatchInfo() object
   """
 
-  info("reading patch from file %s" % filename)
+  info("reading patch from file")
   fp = open(filename, "rb")
   patch = PatchInfo(fp)
   fp.close()
@@ -129,6 +129,7 @@ class PatchInfo(object):
 
     fe = enumerate(stream)
     for lineno, line in fe:
+      line = str(line)
 
       # analyze state
       if header and line.startswith("--- "):
@@ -293,7 +294,7 @@ class PatchInfo(object):
           continue
     else:
       if not hunkskip:
-        warning("patch file incomplete - %s" % filename)
+        warning("patch file incomplete")
         # sys.exit(?)
       else:
         # duplicated message when an eof is reached

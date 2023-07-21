@@ -1,0 +1,2 @@
+gclient>=0.7.2
+gyp-next>=0.15.0

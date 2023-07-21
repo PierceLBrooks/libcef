@@ -10,6 +10,7 @@ def get_svn_revision(path=".", branch="master"):
     try:
         process = Popen(cmd, cwd=path, stdout = PIPE, stderr = PIPE)
         for line in process.stdout:
+            line = str(line)
             if line.find("git-svn-id") > 0:
                 svn_rev = line.split("@")[1].split()[0]
                 break
