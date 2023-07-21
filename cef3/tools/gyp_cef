@@ -18,8 +18,8 @@ import sys
 cef_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 
 # The Chromium source directory is the parent directory of CEF.
-chrome_src = os.path.abspath(os.path.join(cef_dir, os.pardir))
-
+chrome_src = os.path.abspath(os.path.join(cef_dir, os.pardir, 'chromium'))
+print(chrome_src)
 sys.path.insert(0, os.path.join(chrome_src, 'tools', 'gyp', 'pylib'))
 import gyp
 
@@ -148,6 +148,8 @@ if __name__ == '__main__':
   if syntax_check and int(syntax_check):
     args.append('--check')
 
+  args.append('--depth')
+  args.append('1')
   print('Updating projects from gyp files...')
   sys.stdout.flush()
 
