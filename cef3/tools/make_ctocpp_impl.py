@@ -567,7 +567,8 @@ if __name__ == "__main__":
     try:
         f = open(sys.argv[3], 'r')
         data = f.read()
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme:
+        (errno, strerror) = xxx_todo_changeme.args
         raise Exception('Failed to read file '+sys.argv[3]+': '+strerror)
     else:
         f.close()

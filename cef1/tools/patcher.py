@@ -48,7 +48,7 @@ else:
         sys.exit()
     
     scope = {}
-    execfile(options.patchconfig, scope)
+    exec(compile(open(options.patchconfig, "rb").read(), options.patchconfig, 'exec'), scope)
     patches = scope["patches"]
     
     for patch in patches:

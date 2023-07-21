@@ -138,7 +138,7 @@ Usage:  %s [-h] [-i | -o] -g <DIR> -x <DIR> -s <DIR> <locale> [...]
 
   try:
     opts, locales = getopt.getopt(argv, short_options, long_options)
-  except getopt.GetoptError, msg:
+  except getopt.GetoptError as msg:
     raise Usage(str(msg))
 
   if not locales:
@@ -177,4 +177,4 @@ Usage:  %s [-h] [-i | -o] -g <DIR> -x <DIR> -s <DIR> <locale> [...]
 if __name__ == '__main__':
   results = DoMain(sys.argv[1:])
   if results:
-    print results
+    print(results)

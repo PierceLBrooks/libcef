@@ -22,7 +22,7 @@ try:
   # depot_tools may already be in the import path.
   import cpplint
   import cpplint_chromium
-except ImportError, e:
+except ImportError as e:
   # Search the PATH environment variable to find the depot_tools folder.
   depot_tools = None;
   paths = os.environ.get('PATH').split(os.pathsep)
@@ -32,7 +32,7 @@ except ImportError, e:
       break
 
   if depot_tools is None:
-    print >> sys.stderr, 'Error: could not find depot_tools in PATH.'
+    print('Error: could not find depot_tools in PATH.', file=sys.stderr)
     sys.exit(2)
 
   # Add depot_tools to import path.
@@ -77,14 +77,14 @@ def check_style(args, white_list = None, black_list = None):
   for filename in filenames:
     if white_regex.match(filename):
       if black_regex.match(filename):
-        print "Ignoring file %s" % filename
+        print("Ignoring file %s" % filename)
       else:
         cpplint.ProcessFile(filename, cpplint._cpplint_state.verbose_level,
                             extra_check_functions)
     else:
-      print "Skipping file %s" % filename
+      print("Skipping file %s" % filename)
 
-  print "Total errors found: %d\n" % cpplint._cpplint_state.error_count
+  print("Total errors found: %d\n" % cpplint._cpplint_state.error_count)
   return 1
 
 def get_changed_files():

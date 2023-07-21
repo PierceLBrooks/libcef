@@ -13,7 +13,8 @@ def get_svn_revision(path=".", branch="master"):
             if line.find("git-svn-id") > 0:
                 svn_rev = line.split("@")[1].split()[0]
                 break
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme:
+        (errno, strerror) = xxx_todo_changeme.args
         sys.stderr.write('Failed to read git log: ' + strerror + "\n")
         raise
     return svn_rev

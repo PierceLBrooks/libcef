@@ -24,7 +24,7 @@ import os
 import re
 from stat import *
 # cStringIO doesn't support unicode in 2.5
-from StringIO import StringIO
+from io import StringIO
 from logging import debug, info, warning
 
 from os.path import exists, isfile

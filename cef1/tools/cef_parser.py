@@ -182,7 +182,7 @@ def format_comment(comment, indent, translate_map = None, maxchars = 80):
             if len(wrapme) > 0:
                 if not translate_map is None:
                     # apply the translation
-                    for key in translate_map.keys():
+                    for key in list(translate_map.keys()):
                         wrapme = wrapme.replace(key, translate_map[key])
                 # output the previous paragraph
                 result += wrap_text(wrapme, indent+'// ', maxchars)
@@ -210,7 +210,7 @@ def format_comment(comment, indent, translate_map = None, maxchars = 80):
     if len(wrapme) > 0:
         if not translate_map is None:
             # apply the translation
-            for key in translate_map.keys():
+            for key in list(translate_map.keys()):
                 wrapme = wrapme.replace(key, translate_map[key])
         # output the previous paragraph
         result += wrap_text(wrapme, indent+'// ', maxchars)
@@ -323,7 +323,7 @@ def str_to_dict(str):
 def dict_to_str(dict):
     """ Convert a dictionary to a string. """
     str = []
-    for name in dict.keys():
+    for name in list(dict.keys()):
         if not isinstance(dict[name], list):
             if dict[name] is True:
                 # currently a bool value
@@ -1512,7 +1512,7 @@ class obj_analysis:
             }
         
         # check for simple direct translations
-        if value in _simpletypes.keys():
+        if value in list(_simpletypes.keys()):
             return {
                 'result_type' : 'simple',
                 'result_value' : _simpletypes[value][0],

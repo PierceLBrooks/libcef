@@ -9,7 +9,7 @@ import shlex
 import shutil
 import subprocess
 import sys
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 # default URL values
 cef_url = 'http://chromiumembedded.googlecode.com/svn/trunk/cef3'
@@ -32,7 +32,7 @@ def check_url(url):
   if ':' in url[:7]:
     parts = url.split(':', 1)
     if (parts[0] == 'http' or parts[0] == 'https') and \
-        parts[1] == urllib.quote(parts[1]):
+        parts[1] == urllib.parse.quote(parts[1]):
       return url
   sys.stderr.write('Invalid URL: '+url+"\n")
   raise Exception('Invalid URL: '+url)
@@ -49,7 +49,8 @@ def get_svn_info(path):
           url = check_url(line[5:-1])
         elif line[0:9] == "Revision:":
           rev = str(int(line[10:-1]))
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme:
+      (errno, strerror) = xxx_todo_changeme.args
       sys.stderr.write('Failed to read svn info: '+strerror+"\n")
       raise
   return {'url': url, 'revision': rev}
@@ -133,7 +134,7 @@ chromium_rev = None
 
 try:
   # Read the remote URL contents
-  handle = urllib.urlopen(compat_url)
+  handle = urllib.request.urlopen(compat_url)
   compat_value = handle.read().strip()
   handle.close()
 
@@ -152,7 +153,7 @@ try:
 
     chromium_url = check_url(config['chromium_url'])
     chromium_rev = str(int(config['chromium_revision']))
-except Exception, e:
+except Exception as e:
   sys.stderr.write('Failed to read URL and revision information from '+ \
                    compat_url+"\n")
   raise
@@ -239,7 +240,7 @@ else:
     try:
       exec(data, config_dict)
       current_release_url = config_dict['solutions'][0]['url']
-    except Exception, e:
+    except Exception as e:
       sys.stderr.write('Failed to parse existing .glient file.\n')
       raise
 

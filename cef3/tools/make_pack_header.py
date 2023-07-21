@@ -111,8 +111,8 @@ def MakeFile(output, input):
 
 def main(argv):
   if len(argv) < 3:
-    print ("Usage:\n  %s <output_filename> <input_file1> [input_file2] ... " %
-           argv[0])
+    print(("Usage:\n  %s <output_filename> <input_file1> [input_file2] ... " %
+           argv[0]))
     sys.exit(-1)
   MakeFile(argv[1], argv[2:])
 

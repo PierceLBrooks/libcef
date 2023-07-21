@@ -94,7 +94,7 @@ def transfer_files(cef_dir, script_dir, transfer_cfg, output_dir, quiet):
       post = cfg['post-process']
       if post == 'normalize_headers':
         new_path = ''
-        if cfg.has_key('new_header_path'):
+        if 'new_header_path' in cfg:
           new_path = cfg['new_header_path']
         normalize_headers(dst, new_path)
 

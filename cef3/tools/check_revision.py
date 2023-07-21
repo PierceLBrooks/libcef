@@ -60,7 +60,7 @@ if 'release_url' in config:
     try:
       exec(data, config_dict)
       current_release_url = config_dict['solutions'][0]['url']
-    except Exception, e:
+    except Exception as e:
       sys.stderr.write('Failed to parse existing .glient file.\n')
       raise
 

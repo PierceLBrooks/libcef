@@ -4,14 +4,14 @@
 
 import os
 import sys
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 def check_url(url):
   """ Check the URL and raise an exception if invalid. """
   if ':' in url[:7]:
     parts = url.split(':', 1)
     if (parts[0] == 'http' or parts[0] == 'https' or parts[0] == 'svn') and \
-        parts[1] == urllib.quote(parts[1]):
+        parts[1] == urllib.parse.quote(parts[1]):
       return url
   sys.stderr.write('Invalid URL: '+url+"\n")
   raise Exception('Invalid URL: '+url)
@@ -28,7 +28,8 @@ def get_svn_info(path):
           url = check_url(line[5:-1])
         elif line[0:9] == "Revision:":
           rev = str(int(line[10:-1]))
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme:
+      (errno, strerror) = xxx_todo_changeme.args
       sys.stderr.write('Failed to read svn info: '+strerror+"\n")
       raise
   return {'url': url, 'revision': rev}
@@ -51,7 +52,8 @@ def get_changed_files(path = '.'):
         # Return paths with add, modify and switch status.
         if status == 'A' or status == 'M' or status == 'S':
           files.append(line[8:].strip())
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme1:
+      (errno, strerror) = xxx_todo_changeme1.args
       sys.stderr.write('Failed to read svn status: '+strerror+"\n")
       raise
   return files

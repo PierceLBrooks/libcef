@@ -9,7 +9,7 @@ import os
 import shlex
 import shutil
 import sys
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 # default URL values
 chromium_url = 'http://git.chromium.org/chromium/src.git'
@@ -20,7 +20,7 @@ def check_url(url):
     if ':' in url[:7]:
         parts = url.split(':', 1)
         if (parts[0] in ["http", "https", "git"] and \
-                parts[1] == urllib.quote(parts[1])):
+                parts[1] == urllib.parse.quote(parts[1])):
             return url
     sys.stderr.write('Invalid URL: '+url+"\n")
     raise Exception('Invalid URL: '+url)
@@ -36,7 +36,7 @@ def run(args, **kwargs):
         args = shlex.split(args.replace('\\', '\\\\'))
     cwd = kwargs.get("cwd", os.getcwd())
     quiet = kwargs.get("quiet", False)
-    print "-> Running '%s' in %s" % (" ".join(args), os.path.relpath(cwd))
+    print("-> Running '%s' in %s" % (" ".join(args), os.path.relpath(cwd)))
     cmd = Popen(args, cwd=cwd, stdout=PIPE, stderr=STDOUT,
                 env=kwargs.get("env", get_exec_environ()),
                 shell=(sys.platform == 'win32'))
@@ -77,7 +77,8 @@ def get_svn_rev(path, branch):
             if line.find("git-svn-id") > 0:
                 svn_rev = line.split("@")[1].split()[0]
                 break
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme:
+        (errno, strerror) = xxx_todo_changeme.args
         sys.stderr.write('Failed to read git log: ' + strerror + "\n")
         raise
     return svn_rev
@@ -88,7 +89,8 @@ def get_git_rev_for_svn_rvn(path, svn_rev):
     try:
         process = Popen(cmd, cwd=path, stdout = PIPE, stderr = PIPE)
         git_rev = process.communicate()[0].split()[0]
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme1:
+        (errno, strerror) = xxx_todo_changeme1.args
         sys.stderr.write('Failed to read git log: ' + strerror + "\n")
         raise
     return git_rev
@@ -99,7 +101,8 @@ def get_git_rev(path, branch):
     try:
         process = Popen(cmd, cwd=path, stdout = PIPE, stderr = PIPE)
         git_rev = process.communicate()[0].strip()
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme2:
+        (errno, strerror) = xxx_todo_changeme2.args
         sys.stderr.write('Failed to read git log: ' + strerror + "\n")
         raise
     return git_rev
@@ -113,7 +116,8 @@ def get_git_origin(path):
             if line.startswith("  Fetch URL: "):
                 git_origin = line.replace("  Fetch URL: ", "").strip()
                 break
-    except IOError, (errno, strerror):
+    except IOError as xxx_todo_changeme3:
+        (errno, strerror) = xxx_todo_changeme3.args
         sys.stderr.write('Failed to read git log: ' + strerror + "\n")
         raise
     return git_origin
@@ -195,11 +199,11 @@ parser.add_option('--no-distrib',
 
 # the downloaddir and url options are required
 if options.downloaddir is None:
-    print "ERROR: Download directory is required"
+    print("ERROR: Download directory is required")
     parser.print_help(sys.stderr)
     sys.exit()
 if options.url is None:
-    print "ERROR: CEF URL is required"
+    print("ERROR: CEF URL is required")
     parser.print_help(sys.stderr)
     sys.exit()
 
@@ -249,33 +253,33 @@ current_chromium_rev = info['local']['svn-revision']
 
 # test if the CEF URL changed
 cef_url_changed = current_cef_url != cef_url
-print "-- CEF URL: %s" % current_cef_url
+print("-- CEF URL: %s" % current_cef_url)
 if cef_url_changed:
-    print "\t-> CHANGED TO: %s" % cef_url
+    print("\t-> CHANGED TO: %s" % cef_url)
 
 # test if the CEF revision changed
 cef_rev_changed = current_cef_rev != cef_rev
-print "-- CEF Revision: %s" % current_cef_rev
+print("-- CEF Revision: %s" % current_cef_rev)
 if cef_url_changed:
-    print "\t-> CHANGED TO: %s" % cef_rev
+    print("\t-> CHANGED TO: %s" % cef_rev)
 
 # test if the Chromium URL changed
 chromium_url_changed = current_chromium_url != chromium_url
-print "-- Chromium URL: %s" % current_chromium_url
+print("-- Chromium URL: %s" % current_chromium_url)
 if cef_url_changed:
-    print "\t-> CHANGED TO: %s" % chromium_url
+    print("\t-> CHANGED TO: %s" % chromium_url)
 
 # test if the Chromium revision changed
 chromium_rev_changed = current_chromium_rev != chromium_rev
-print "-- Chromium Revision: %s" % current_chromium_rev
+print("-- Chromium Revision: %s" % current_chromium_rev)
 if cef_url_changed:
-    print "\t-> CHANGED TO: %s" % chromium_rev
+    print("\t-> CHANGED TO: %s" % chromium_rev)
 
 # true if anything changed
 any_changed = chromium_url_changed or chromium_rev_changed or \
               cef_url_changed or cef_rev_changed
 if not any_changed:
-    print "*** NO CHANGE ***"
+    print("*** NO CHANGE ***")
 
 if chromium_url_changed or options.forceconfig:
     # run gclient config to create the .gclient file
